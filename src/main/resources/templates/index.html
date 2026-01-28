@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Government Services Directory</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .service { border-bottom: 1px solid #ddd; padding: 1rem 0; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; background: #e6f4ff; border-radius: 12px; font-size: 0.8rem; }
+    form { margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <h1>Government Services Directory</h1>
+  <p>Machine-readable knowledge first, human-friendly view second.</p>
+
+  <form method="get" action="/">
+    <label for="q">Search services</label>
+    <input type="text" id="q" name="q" th:value="${query}" placeholder="Search by title or summary" />
+    <button type="submit">Search</button>
+  </form>
+
+  <div th:if="${services.isEmpty()}">
+    <p>No services found.</p>
+  </div>
+
+  <div th:each="service : ${services}" class="service">
+    <h2>
+      <a th:href="@{'/services/' + ${service.slug}}" th:text="${service.title}">Service title</a>
+    </h2>
+    <p><strong>Authority:</strong> <span th:text="${service.authorityName}">Authority</span></p>
+    <p th:text="${service.summary}">Summary</p>
+    <span class="badge" th:text="${service.status}">ACTIVE</span>
+  </div>
+</body>
+</html>

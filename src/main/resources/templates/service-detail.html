@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${service.title}">Service Detail</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    .badge { display: inline-block; padding: 0.2rem 0.6rem; background: #e8f5e9; border-radius: 12px; font-size: 0.8rem; }
+    .invalid { background: #ffebee; }
+    section { margin-bottom: 1.5rem; }
+  </style>
+</head>
+<body>
+  <a href="/">&larr; Back to directory</a>
+  <h1 th:text="${service.title}">Service</h1>
+  <p th:text="${service.summary}">Summary</p>
+  <p><strong>Authority:</strong> <span th:text="${service.authorityName}">Authority</span></p>
+  <p>
+    <strong>Validity:</strong>
+    <span th:text="${service.validFrom}">Start</span>
+    -
+    <span th:text="${service.validTo}">End</span>
+    <span th:class="${service.currentlyValid} ? 'badge' : 'badge invalid'"
+          th:text="${service.currentlyValid} ? 'Currently valid' : 'Not currently valid'"></span>
+  </p>
+
+  <section>
+    <h2>Description</h2>
+    <p th:text="${service.description}">Description</p>
+  </section>
+
+  <section>
+    <h2>Requirements</h2>
+    <ul>
+      <li th:each="req : ${service.requirements}">
+        <strong th:text="${req.title}">Requirement</strong>
+        <span th:text="${req.details}">Details</span>
+        <span th:text="${req.required} ? 'Required' : 'Optional'"></span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Documents</h2>
+    <ul>
+      <li th:each="doc : ${service.documents}">
+        <a th:href="${doc.url}" th:text="${doc.name}">Document</a>
+        <span th:text="${doc.description}">Description</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Fees</h2>
+    <ul>
+      <li th:each="fee : ${service.fees}">
+        <span th:text="${fee.amount}">Amount</span>
+        <span th:text="${fee.currency}">Currency</span>
+        <span th:text="${fee.notes}">Notes</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Timeframe</h2>
+    <ul>
+      <li th:each="tf : ${service.timeframes}">
+        <span th:text="${tf.minDays}">Min</span>
+        to
+        <span th:text="${tf.maxDays}">Max</span>
+        days
+        <span th:text="${tf.notes}">Notes</span>
+      </li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Legal Sources</h2>
+    <ul>
+      <li th:each="ls : ${service.legalSources}">
+        <a th:href="${ls.url}" th:text="${ls.title}">Legal source</a>
+        <span th:text="${ls.publishedDate}">Date</span>
+      </li>
+    </ul>
+  </section>
+</body>
+</html>
